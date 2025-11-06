@@ -1,0 +1,16 @@
+body::-webkit-scrollbar {
+  display: none !important;
+}
+
+nav {
+  border-bottom: 1px solid black !important;
+}
+
+.styed-container {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.styed-carded {
+  width: 50% !important;
+}
