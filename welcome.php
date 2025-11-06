@@ -22,8 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $phonesql = "UPDATE `users` SET `phone` = $phone WHERE id = '$id'";
       $result = mysqli_query($con, $phonesql);
       if ($result) {
+        $showAlert = "Phone number has been updated successfully!";
         $_SESSION['phone'] = $phone;
-        header("location:welcome.php");
+        // header("location:welcome.php");
       }
     } else {
       $phoneLenError = "Phone number must be 10 digits long.";
