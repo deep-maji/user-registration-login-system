@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   include "./partials/_dbconnect.php";
   $id = $_SESSION['id'];
 
-  // 1️⃣ Update phone
+  // Update phone
   if (isset($_POST['phone'])) {
     $phone = trim($_POST['phone']);
     if (strlen($phone) == 10) {
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
   }
 
-  // 2️⃣ Update date
+  // Update date
   elseif (isset($_POST['dob'])) {
     $dob = $_POST['dob'];
     $sql = "UPDATE `users` SET `dob` = '$dob' WHERE `id` = '$id'";
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
   }
 
-  // 3️⃣ Update gender
+  // Update gender
   elseif (isset($_POST['gender'])) {
     $gender = $_POST['gender'];
     $sql = "UPDATE `users` SET `gender` = '$gender' WHERE `id` = '$id'";
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
   }
 
-  // 4️⃣ Update country
+  // Update country
   elseif (isset($_POST['country'])) {
     $country = trim($_POST['country']);
     $sql = "UPDATE `users` SET `country` = '$country' WHERE `id` = '$id'";
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
   }
 
-  // 5️⃣ Update city
+  // Update city
   elseif (isset($_POST['city'])) {
     $city = trim($_POST['city']);
     $sql = "UPDATE `users` SET `city` = '$city' WHERE `id` = '$id'";
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
   }
 
-  // 6️⃣ Update username & email (same as your original logic)
+  // Update username & email (same as your original logic)
   elseif (isset($_POST['username']) && isset($_POST['email'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
