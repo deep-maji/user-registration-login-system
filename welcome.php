@@ -116,6 +116,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       -webkit-appearance: none;
       margin: 0;
     }
+
+    .modal-content {
+      border-radius: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .modal.show .modal-dialog {
+      transform: scale(1.02);
+    }
   </style>
 </head>
 
