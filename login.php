@@ -1,40 +1,62 @@
 <?php
 session_start();
+
+// Redirect if already logged in
 if (isset($_SESSION['isLogin']) && $_SESSION['isLogin'] == true) {
   header("location:welcome.php");
+  exit();
 }
 
+// Set default theme cookie
 if (!isset($_COOKIE['_theme'])) {
   setcookie("_theme", "light", time() + (86400 * 7), "/");
 }
 
 $isLogin = false;
 $showError = false;
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   include "./partials/_dbconnect.php";
+
+  // Sanitize inputs
   $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
   $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+  // Query for user
   $sql = "SELECT * FROM `users` WHERE `email` = '$email'";
-
   $result = mysqli_query($con, $sql);
   $num = mysqli_num_rows($result);
-  $rows = mysqli_fetch_assoc($result);
-  if ($num == 1 && password_verify($password, $rows['password'])) {
-    $isLogin = true;
-    $_SESSION['isLogin'] = true;
-    $_SESSION['id'] = $rows['id'];
-    $_SESSION['username'] = $rows['username'];
-    $_SESSION['email'] = $rows['email'];
-    $_SESSION['phone'] = $rows['phone'];
-    header("location:welcome.php");
+
+  if ($num == 1) {
+    $rows = mysqli_fetch_assoc($result);
+
+    // Verify password
+    if (password_verify($password, $rows['password'])) {
+      $isLogin = true;
+
+      // Set session variables
+      $_SESSION['isLogin'] = true;
+      $_SESSION['id'] = $rows['id'];
+      $_SESSION['username'] = $rows['username'];
+      $_SESSION['email'] = $rows['email'];
+      $_SESSION['phone'] = $rows['phone'];
+      $_SESSION['dob'] = $rows['dob']; // store DB 'date' column as 'dob' in session
+      $_SESSION['gender'] = $rows['gender'];
+      $_SESSION['country'] = $rows['country'];
+      $_SESSION['city'] = $rows['city'];
+
+      // Redirect to welcome page
+      header("location:welcome.php");
+      exit();
+    } else {
+      $showError = "Invalid password. Please try again.";
+    }
   } else {
-    $showError = "Invalid username or password. Please try again.";
+    $showError = "Invalid email or user not found.";
   }
-
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

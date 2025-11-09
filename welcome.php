@@ -15,49 +15,84 @@ $showError = false;
 $phoneLenError = false;
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   include "./partials/_dbconnect.php";
+  $id = $_SESSION['id'];
+
+  // 1️⃣ Update phone
   if (isset($_POST['phone'])) {
-    if (strlen($_POST['phone']) == 10) {
-      $id = $_SESSION['id'];
-      $phone = !empty($_POST['phone']) ? $_POST['phone'] : 'NULL';
-      $phonesql = "UPDATE `users` SET `phone` = $phone WHERE id = '$id'";
+    $phone = trim($_POST['phone']);
+    if (strlen($phone) == 10) {
+      $phonesql = "UPDATE `users` SET `phone` = '$phone' WHERE `id` = '$id'";
       $result = mysqli_query($con, $phonesql);
       if ($result) {
-        $showAlert = "Phone number has been updated successfully!";
         $_SESSION['phone'] = $phone;
-        // header("location:welcome.php");
+        $showAlert = "Phone updated successfully!";
       }
     } else {
       $phoneLenError = "Phone number must be 10 digits long.";
     }
-  } else {
-    if (($_SESSION['username'] != $_POST['username']) || $_SESSION['email'] != $_POST['email']) {
-      $username = $_POST['username'];
-      $email = $_POST['email'];
+  }
 
-      $existsSql = "SELECT `username` FROM `users` WHERE `username` = '$username'";
-      $userName_existResult = mysqli_query($con, $existsSql);
-      $num_of_rows_username = mysqli_num_rows($userName_existResult);
+  // 2️⃣ Update date
+  elseif (isset($_POST['dob'])) {
+    $dob = $_POST['dob'];
+    $sql = "UPDATE `users` SET `dob` = '$dob' WHERE `id` = '$id'";
+    if (mysqli_query($con, $sql)) {
+      $_SESSION['dob'] = $dob;
+      $showAlert = "Date of birth updated successfully!";
+    }
+  }
 
-      $existsSql = "SELECT `email` FROM `users` WHERE `email` = '$email'";
-      $email_existResult = mysqli_query($con, $existsSql);
-      $num_of_rows_email = mysqli_num_rows($email_existResult);
-      if ($num_of_rows_username > 0 && $num_of_rows_email > 0) {
-        $showError = "Username or email already exists.";
-      } else {
-        $id = $_SESSION['id'];
-        $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email' WHERE id = '$id';";
-        $result = mysqli_query($con, $sql);
-        if ($result) {
-          $showAlert = "Your profile has been updated successfully!";
-          $_SESSION['isLogin'] = true;
-          $_SESSION['username'] = $username;
-          $_SESSION['email'] = $email;
-          // header("location:welcome.php");
-        }
+  // 3️⃣ Update gender
+  elseif (isset($_POST['gender'])) {
+    $gender = $_POST['gender'];
+    $sql = "UPDATE `users` SET `gender` = '$gender' WHERE `id` = '$id'";
+    if (mysqli_query($con, $sql)) {
+      $_SESSION['gender'] = $gender;
+      $showAlert = "Gender updated successfully!";
+    }
+  }
+
+  // 4️⃣ Update country
+  elseif (isset($_POST['country'])) {
+    $country = trim($_POST['country']);
+    $sql = "UPDATE `users` SET `country` = '$country' WHERE `id` = '$id'";
+    if (mysqli_query($con, $sql)) {
+      $_SESSION['country'] = $country;
+      $showAlert = "Country updated successfully!";
+    }
+  }
+
+  // 5️⃣ Update city
+  elseif (isset($_POST['city'])) {
+    $city = trim($_POST['city']);
+    $sql = "UPDATE `users` SET `city` = '$city' WHERE `id` = '$id'";
+    if (mysqli_query($con, $sql)) {
+      $_SESSION['city'] = $city;
+      $showAlert = "City updated successfully!";
+    }
+  }
+
+  // 6️⃣ Update username & email (same as your original logic)
+  elseif (isset($_POST['username']) && isset($_POST['email'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+
+    $existsUsername = mysqli_query($con, "SELECT `id` FROM `users` WHERE `username`='$username' AND id!='$id'");
+    $existsEmail = mysqli_query($con, "SELECT `id` FROM `users` WHERE `email`='$email' AND id!='$id'");
+
+    if (mysqli_num_rows($existsUsername) > 0 || mysqli_num_rows($existsEmail) > 0) {
+      $showError = "Username or email already exists.";
+    } else {
+      $sql = "UPDATE `users` SET `username`='$username', `email`='$email' WHERE id='$id'";
+      if (mysqli_query($con, $sql)) {
+        $_SESSION['username'] = $username;
+        $_SESSION['email'] = $email;
+        $showAlert = "Profile updated successfully!";
       }
     }
   }
 }
+
 
 
 ?>
@@ -218,10 +253,130 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
               </div>
             </div>
           </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Date of Birth</label>
+            <div class="col-sm-10">
+              <div class="d-flex">
+                <input readonly value="<?= $_SESSION['dob'] ?? '' ?>" type="date" class="form-control">
+                <button class="ms-3 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#updateDate"
+                  aria-expanded="false">
+                  Update
+                </button>
+              </div>
+              <div class="collapse mt-3" id="updateDate">
+                <form action="./welcome.php" method="post">
+                  <div class="d-flex">
+                    <input type="date" name="dob" value="<?= $_SESSION['dob'] ?? '' ?>" class="form-control" required>
+                    <button type="submit" class="mx-3 btn btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Gender</label>
+            <div class="col-sm-10">
+              <div class="d-flex">
+                <input readonly value="<?= $_SESSION['gender'] ?? '' ?>" type="text" class="form-control text-capitalize">
+                <button class="ms-3 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#updateGender"
+                  aria-expanded="false">
+                  Update
+                </button>
+              </div>
+              <div class="collapse mt-3" id="updateGender">
+                <form action="./welcome.php" method="post">
+                  <select class="form-select" name="gender" required>
+                    <option value="">Select gender</option>
+                    <option value="male" <?= ($_SESSION['gender'] ?? '') == 'male' ? 'selected' : '' ?>>Male</option>
+                    <option value="female" <?= ($_SESSION['gender'] ?? '') == 'female' ? 'selected' : '' ?>>Female</option>
+                    <option value="others" <?= ($_SESSION['gender'] ?? '') == 'others' ? 'selected' : '' ?>>Others</option>
+                  </select>
+                  <button type="submit" class="mt-2 btn btn-primary">Save</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Country</label>
+            <div class="col-sm-10">
+              <div class="d-flex">
+                <input readonly value="<?= $_SESSION['country'] ?? '' ?>" type="text" class="form-control text-capitalize">
+                <button class="ms-3 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#updateCountry"
+                  aria-expanded="false">
+                  Update
+                </button>
+              </div>
+              <div class="collapse mt-3" id="updateCountry">
+                <form action="./welcome.php" method="post">
+                  <div class="d-flex">
+                    <input type="text" name="country" value="<?= $_SESSION['country'] ?? '' ?>" class="form-control text-capitalize" required>
+                    <button type="submit" class="mx-3 btn btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">City</label>
+            <div class="col-sm-10">
+              <div class="d-flex">
+                <input readonly value="<?= $_SESSION['city'] ?? '' ?>" type="text" class="form-control text-capitalize">
+                <button class="ms-3 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#updateCity"
+                  aria-expanded="false">
+                  Update
+                </button>
+              </div>
+              <div class="collapse mt-3" id="updateCity">
+                <form action="./welcome.php" method="post">
+                  <div class="d-flex">
+                    <input type="text" name="city" value="<?= $_SESSION['city'] ?? '' ?>" class="form-control" required>
+                    <button type="submit" class="mx-3 btn btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-semibold" id="logoutModalLabel">
+          <i class="fa-solid fa-right-from-bracket me-2 text-danger"></i> Confirm Logout
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body text-center">
+        <p class="mb-3 fs-6 text-secondary">
+          Are you sure you want to log out from your account?
+        </p>
+      </div>
+
+      <div class="modal-footer border-0 justify-content-center">
+        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <form action="logout.php" method="post">
+          <button type="submit" class="btn btn-danger px-4">
+            <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>

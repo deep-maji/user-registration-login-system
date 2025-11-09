@@ -21,7 +21,7 @@ if (isset($_SESSION['isLogin']) && $_SESSION['isLogin'] == true) {
         <!-- <li class="nav-item">
           <a class="nav-link" aria-current="page" href="./welcome.php">Home</a>
         </li> -->
-        
+
         <?php
         if (!$logedIn) {
           echo '<li class="nav-item d-flex pt-2">
@@ -42,8 +42,8 @@ if (isset($_SESSION['isLogin']) && $_SESSION['isLogin'] == true) {
         ';
         } else {
           echo '<li class="nav-item">
-          <a class="nav-link" href="./logout.php"><i class="fa-solid fa-right-from-bracket"></i></a>
-        </li>';
+                  <a class="nav-link" href="./logout.php" data-bs-toggle="modal" data-bs-target="#logoutModal"><i class="fa-solid fa-right-from-bracket"></i></a>
+                </li>';
         }
         ?>
 
