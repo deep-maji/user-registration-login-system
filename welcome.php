@@ -211,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </div>
               </div>
 
-              <button type="submit" class="mb-3 btn btn-primary">Save</button>
+              <button type="submit" class="mb-3 btn btn-success">Save</button>
             </form>
           </div>
 
@@ -245,7 +245,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                       <input value="<?= $_SESSION['phone'] ?>" type="number" name="phone" class="form-control"
                         id="phone" required>
                       <!-- <div class="invalid-feedback">Phone number should 10 digits</div> -->
-                      <button type="submit" class="mx-3 btn btn-primary">Save</button>
+                      <button type="submit" class="mx-3 btn btn-success ">Save</button>
                     </div>
                   </div>
 
@@ -268,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <form action="./welcome.php" method="post">
                   <div class="d-flex">
                     <input type="date" name="dob" value="<?= $_SESSION['dob'] ?? '' ?>" class="form-control" required>
-                    <button type="submit" class="mx-3 btn btn-primary">Save</button>
+                    <button type="submit" class="mx-3 btn btn-success ">Save</button>
                   </div>
                 </form>
               </div>
@@ -293,7 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <option value="female" <?= ($_SESSION['gender'] ?? '') == 'female' ? 'selected' : '' ?>>Female</option>
                     <option value="others" <?= ($_SESSION['gender'] ?? '') == 'others' ? 'selected' : '' ?>>Others</option>
                   </select>
-                  <button type="submit" class="mt-2 btn btn-primary">Save</button>
+                  <button type="submit" class="mt-2 btn btn-success ">Save</button>
                 </form>
               </div>
             </div>
@@ -313,7 +313,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <form action="./welcome.php" method="post">
                   <div class="d-flex">
                     <input type="text" name="country" value="<?= $_SESSION['country'] ?? '' ?>" class="form-control text-capitalize" required>
-                    <button type="submit" class="mx-3 btn btn-primary">Save</button>
+                    <button type="submit" class="mx-3 btn btn-success ">Save</button>
                   </div>
                 </form>
               </div>
@@ -334,7 +334,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <form action="./welcome.php" method="post">
                   <div class="d-flex">
                     <input type="text" name="city" value="<?= $_SESSION['city'] ?? '' ?>" class="form-control" required>
-                    <button type="submit" class="mx-3 btn btn-primary">Save</button>
+                    <button type="submit" class="mx-3 btn btn-success ">Save</button>
                   </div>
                 </form>
               </div>
@@ -347,35 +347,35 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   </div>
 
   <!-- Logout Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow">
-      <div class="modal-header border-0">
-        <h5 class="modal-title fw-semibold" id="logoutModalLabel">
-          <i class="fa-solid fa-right-from-bracket me-2 text-danger"></i> Confirm Logout
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-semibold" id="logoutModalLabel">
+            <i class="fa-solid fa-right-from-bracket me-2 text-danger"></i> Confirm Logout
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
 
-      <div class="modal-body text-center">
-        <p class="mb-3 fs-6 text-secondary">
-          Are you sure you want to log out from your account?
-        </p>
-      </div>
+        <div class="modal-body text-center">
+          <p class="mb-3 fs-6 text-secondary">
+            Are you sure you want to log out from your account?
+          </p>
+        </div>
 
-      <div class="modal-footer border-0 justify-content-center">
-        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
-          Cancel
-        </button>
-        <form action="logout.php" method="post">
-          <button type="submit" class="btn btn-danger px-4">
-            <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+        <div class="modal-footer border-0 justify-content-center">
+          <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+            Cancel
           </button>
-        </form>
+          <form action="logout.php" method="post">
+            <button type="submit" class="btn btn-danger px-4">
+              <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
