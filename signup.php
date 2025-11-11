@@ -123,11 +123,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <button type="submit" class="btn btn-primary px-4">Sign up</button>
           </div>
         </form>
-        <p class="text-center mt-3">Already have an account? <a href="./login.php">Sign in here</a>.</p>
+        <p class="text-center mt-3">Already have an account? <a href="./login.php">Login in here</a>.</p>
 
       </div>
     </div>
   </div>
+  <?php include("./partials/footer.html") ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
